@@ -25,20 +25,33 @@ public class Event {
     }
 
     public void addEvent() {
-        System.out.print("Enter Event ID: ");
-        String id = scanner.nextLine();
-        System.out.print("Enter Event Name: ");
-        String name = scanner.nextLine();
-        System.out.print("Enter Event Date (dd/mm/yyyy): ");
-        String date = scanner.nextLine();
+    System.out.print("Enter Event ID: ");
+    String id = scanner.nextLine();
+    System.out.print("Enter Event Name: ");
+    String name = scanner.nextLine();
+    System.out.print("Enter Event Date (dd/mm/yyyy): ");
+    String date = scanner.nextLine();
+
+    int capacity;
+    while (true) {
         System.out.print("Enter Capacity: ");
-        int capacity = Integer.parseInt(scanner.nextLine());
-
-        EventData newEvent = new EventData(id, name, date, capacity);
-        events.add(newEvent);
-
-        System.out.println("Event added successfully!");
+        try {
+            capacity = Integer.parseInt(scanner.nextLine());
+            if (capacity <= 0) {
+                System.out.println("Capacity must be greater than 0. Please enter again.");
+            } else {
+                break;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a numeric value for capacity.");
+        }
     }
+
+    EventData newEvent = new EventData(id, name, date, capacity);
+    events.add(newEvent);
+
+    System.out.println("Event added successfully!");
+}
 
     public void viewEvents() {
         if (events.isEmpty()) {
