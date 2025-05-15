@@ -1,4 +1,6 @@
 import java.util.LinkedList;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class User {
     private LinkedList<UserData> users = new LinkedList<>();
@@ -15,17 +17,53 @@ public class User {
         }
     }
 
-    public void addUser(java.util.Scanner scanner) {
-        System.out.print("Enter User ID: ");
-        String id = scanner.nextLine();
-        System.out.print("Enter Name: ");
-        String name = scanner.nextLine();
-        System.out.print("Enter Email: ");
-        String email = scanner.nextLine();
+    public void addUser(Scanner scanner) {
+    String id, name, email;
+    Pattern emailPattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
 
-        users.add(new UserData(id, name, email));
-        System.out.println("User added successfully!");
+    // Validate User ID
+    while (true) {
+        System.out.print("Enter User ID: ");
+        id = scanner.nextLine().trim();
+        if (id.isEmpty()) {
+            System.out.println("User ID cannot be empty. Please try again.");
+        } else if (findUserById(id) != null) {
+            System.out.println("User ID already exists. Please enter a unique ID.");
+        } else {
+            break;
+        }
     }
+
+    // Validate Name
+    while (true) {
+    System.out.print("Enter Name: ");
+    name = scanner.nextLine().trim();
+    
+    if (name.isEmpty()) {
+        System.out.println("Name cannot be empty. Please try again.");
+    } else if (!name.matches("^[A-Za-z ]+$")) {
+        System.out.println("Name must contain only letters and spaces. Please try again.");
+    } else {
+        break;
+    }
+}
+
+
+    // Validate Email
+    while (true) {
+        System.out.print("Enter Email: ");
+        email = scanner.nextLine().trim();
+        if (!emailPattern.matcher(email).matches()) {
+            System.out.println("Invalid email format. Please enter a valid email.");
+        } else {
+            break;
+        }
+    }
+
+    users.add(new UserData(id, name, email));
+    System.out.println("User added successfully!");
+}
+
 
     public void viewUsers() {
         if (users.isEmpty()) {
